@@ -1,0 +1,20 @@
+{
+  "Extent Horizon": {
+    "put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate": {
+      "fine_tuning": "static/videos/one_shot/Extent Horizon/put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate/Transfer_via_fine-tuning/6.mp4",
+      "intent_injection": "static/videos/one_shot/Extent Horizon/put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate/Transfer_via_Intent_token_injection/5.mp4"
+    }
+  },
+  "New Layout": {
+    "pick_up_the_milk_and_place_it_in_the_basket": {
+      "fine_tuning": "static/videos/one_shot/New Layout/pick_up_the_milk_and_place_it_in_the_basket/Transfer_via_fine-tuning/4.mp4",
+      "intent_injection": "static/videos/one_shot/New Layout/pick_up_the_milk_and_place_it_in_the_basket/Transfer_via_Intent_token_injection/3.mp4"
+    }
+  },
+  "New Task": {
+    "pick_up_the_red_mug_and_place_it_at_the_front_of_the_table": {
+      "fine_tuning": "static/videos/one_shot/New Task/pick_up_the_red_mug_and_place_it_at_the_front_of_the_table/Transfer_via_fine-tuning/2.mp4",
+      "intent_injection": "static/videos/one_shot/New Task/pick_up_the_red_mug_and_place_it_at_the_front_of_the_table/Transfer_via_Intent_token_injection/1.mp4"
+    }
+  }
+}

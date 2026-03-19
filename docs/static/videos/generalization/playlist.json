@@ -1,0 +1,81 @@
+{
+  "Background Texture": {
+    "turn_on_the_stove_and_put_the_moka_pot_on_it": [
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0000_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0001_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0002_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0003_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0004_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0005_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0006_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0007_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0008_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4",
+      "static/videos/generalization/Background Texture/turn_on_the_stove_and_put_the_moka_pot_on_it/0009_KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka__trial0_success.mp4"
+    ]
+  },
+  "Camera Viewpoints": {
+    "put_both_the_cream_cheese_box_and_the_butter_in_the_basket": [
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0010_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0011_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0012_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0013_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0014_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0015_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0016_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0017_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0018_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0019_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0020_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0021_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4",
+      "static/videos/generalization/Camera Viewpoints/put_both_the_cream_cheese_box_and_the_butter_in_the_basket/0022_LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_a_trial0_success.mp4"
+    ]
+  },
+  "Light Condition": {
+    "put_both_moka_pots_on_the_stove": [
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0038_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0042_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_fail.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0044_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0047_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0049_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0050_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0051_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_both_moka_pots_on_the_stove/0058_KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_lig_trial0_fail.mp4"
+    ],
+    "put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate": [
+      "static/videos/generalization/Light Condition/put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/0059_LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate__trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/0066_LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate__trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/0069_LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate__trial0_success.mp4",
+      "static/videos/generalization/Light Condition/put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate/0070_LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate__trial0_success.mp4"
+    ]
+  },
+  "Objects Layout": {
+    "put_the_yellow_and_white_mug_in_the_microwave_and_close_it": [
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0024_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4",
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0025_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4",
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0026_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4",
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0027_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4",
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0028_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4",
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0031_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4",
+      "static/videos/generalization/Objects Layout/put_the_yellow_and_white_mug_in_the_microwave_and_close_it/0032_KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_trial0_success.mp4"
+    ]
+  },
+  "Sensor Noise": {
+    "put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it": [
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0043_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0044_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0045_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0046_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0047_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0048_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0049_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0050_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0051_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0052_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0053_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0054_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0055_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0056_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_fail.mp4",
+      "static/videos/generalization/Sensor Noise/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it/0057_KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_dr_trial0_success.mp4"
+    ]
+  }
+}

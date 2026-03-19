@@ -1,0 +1,38 @@
+{
+  "calvin": [
+    "static/videos/main_results/calvin/example_1.mp4",
+    "static/videos/main_results/calvin/example_2.mp4",
+    "static/videos/main_results/calvin/example_3.mp4",
+    "static/videos/main_results/calvin/example_4.mp4"
+  ],
+  "libero": [
+    "static/videos/main_results/libero/open_the_middle_drawer_of_the_cabinet.mp4",
+    "static/videos/main_results/libero/open_the_top_drawer_and_put_the_bowl_inside.mp4",
+    "static/videos/main_results/libero/pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy.mp4",
+    "static/videos/main_results/libero/push_the_plate_to_the_front_of_the_stove.mp4",
+    "static/videos/main_results/libero/put_both_moka_pots_on_the_stove.mp4",
+    "static/videos/main_results/libero/put_both_the_cream_cheese_box_and_the_butter_in_the_basket.mp4",
+    "static/videos/main_results/libero/put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it.mp4",
+    "static/videos/main_results/libero/put_the_bowl_on_the_plate.mp4",
+    "static/videos/main_results/libero/put_the_bowl_on_the_stove.mp4",
+    "static/videos/main_results/libero/put_the_bowl_on_top_of_the_cabinet.mp4",
+    "static/videos/main_results/libero/put_the_cream_cheese_in_the_bowl.mp4",
+    "static/videos/main_results/libero/put_the_wine_bottle_on_the_rack.mp4",
+    "static/videos/main_results/libero/put_the_wine_bottle_on_top_of_the_cabinet.mp4",
+    "static/videos/main_results/libero/put_the_yellow_and_white_mug_in_the_microwave_and_close_it.mp4",
+    "static/videos/main_results/libero/turn_on_the_stove.mp4",
+    "static/videos/main_results/libero/turn_on_the_stove_and_put_the_moka_pot_on_it.mp4"
+  ],
+  "metaworld": [
+    "static/videos/main_results/metaworld/assemble_nut.mp4",
+    "static/videos/main_results/metaworld/disassemble_nut.mp4",
+    "static/videos/main_results/metaworld/insert_peg_side.mp4",
+    "static/videos/main_results/metaworld/pick&place_with_wall.mp4",
+    "static/videos/main_results/metaworld/place_onto_shelf.mp4",
+    "static/videos/main_results/metaworld/pull_lever.mp4",
+    "static/videos/main_results/metaworld/pull_mug.mp4",
+    "static/videos/main_results/metaworld/pull_with_stick.mp4",
+    "static/videos/main_results/metaworld/transfer_block.mp4",
+    "static/videos/main_results/metaworld/unplug_peg.mp4"
+  ]
+}
