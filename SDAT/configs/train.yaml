@@ -1,0 +1,65 @@
+defaults:
+  - _self_
+
+# Dedicated VQ-VAE training config for LeRobotDataset format.
+exp_name: SDAT_training
+
+# LeRobot dataset locator
+repo_id: HuggingFaceVLA/libero
+
+# Runtime
+train_gpus: [0,1,2,3]
+mix_precision: false
+amp_dtype: bf16
+seed: 42
+dry: false
+
+# Sequence/action
+horizon: 16
+action_dim: 7
+
+
+batch_size: 128
+num_workers: 8
+action_norm_mode: none   # gaussian | minmax | quantile | none
+
+# Training
+epochs: 100
+save_freq: 20
+ckpt_interval: 20
+
+# Optimizer
+opt: adamw
+lr: 3e-5
+weight_decay: 0.005
+vwde: 0
+vclip: 10.0
+vema: 0.99
+vwp: 1
+vwp0: 0.005
+vwpe: 0.3
+vsche: cos
+ac: 1
+dct_loss_weight: 0.1
+
+# Model
+codebook_size: 512
+codebook_dim: 32
+ch: 32
+ch_mult: [2, 4, 8]
+dropout: 0.1
+
+# Quantizer
+beta: 0.25
+znorm: true
+quant_conv_ks: 3
+quant_resi: 0.5
+share_quant_resi: 0
+patch_nums: [1, 2, 4]
+vae_init: -0.1
+vocab_init: -1
+
+# Logging
+project: SDAT
+name: ${exp_name}
+group: SDAT_train

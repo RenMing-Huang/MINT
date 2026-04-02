@@ -1,0 +1,26 @@
+{
+  "insert_the_red_marker_pen_into_black_holder": {
+    "ACT": "static/videos/real_world/insert_the_red_marker_pen_into_black_holder/ACT.mp4",
+    "MINT": "static/videos/real_world/insert_the_red_marker_pen_into_black_holder/MINT.mp4",
+    "Pi0": "static/videos/real_world/insert_the_red_marker_pen_into_black_holder/Pi0.mp4",
+    "Pi05": "static/videos/real_world/insert_the_red_marker_pen_into_black_holder/Pi05*.mp4"
+  },
+  "place_the_banana_into_the_red_plate": {
+    "ACT": "static/videos/real_world/place_the_banana_into_the_red_plate/ACT.mp4",
+    "MINT": "static/videos/real_world/place_the_banana_into_the_red_plate/MINT.mp4",
+    "Pi0": "static/videos/real_world/place_the_banana_into_the_red_plate/Pi0.mp4",
+    "Pi05": "static/videos/real_world/place_the_banana_into_the_red_plate/Pi05*.mp4"
+  },
+  "stack_the_green_cup_on_the_red_cup": {
+    "ACT": "static/videos/real_world/stack_the_green_cup_on_the_red_cup/ACT.mp4",
+    "MINT": "static/videos/real_world/stack_the_green_cup_on_the_red_cup/MINT.mp4",
+    "Pi0": "static/videos/real_world/stack_the_green_cup_on_the_red_cup/Pi0.mp4",
+    "Pi05": "static/videos/real_world/stack_the_green_cup_on_the_red_cup/Pi05*.mp4"
+  },
+  "stack_the_right_block_on_the_left_block": {
+    "ACT": "static/videos/real_world/stack_the_right_block_on_the_left_block/ACT.mp4",
+    "MINT": "static/videos/real_world/stack_the_right_block_on_the_left_block/MINT.mp4",
+    "Pi0": "static/videos/real_world/stack_the_right_block_on_the_left_block/Pi0.mp4",
+    "Pi05": "static/videos/real_world/stack_the_right_block_on_the_left_block/Pi05*.mp4"
+  }
+}

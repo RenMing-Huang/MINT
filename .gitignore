@@ -1,0 +1,29 @@
+.DS_Store
+
+wandb/
+outputs/
+log/
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Packaging
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+.eggs/
+
+# pip / virtualenv
+venv/
+.env/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/

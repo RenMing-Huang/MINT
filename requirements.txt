@@ -1,0 +1,4 @@
+lightning
+hydra-core
+typed-argument-parser
+pytz

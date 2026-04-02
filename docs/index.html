@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="Mimic Intent, Not Just Trajectories (MINT)">
+  <meta name="description" content="MINT disentangles intent from execution via multi-scale frequency-space action tokenization, improving robustness, efficiency, and one-shot transfer in robot manipulation imitation learning.">
+  <meta name="keywords" content="imitation learning, robotics, manipulation, action tokenization, VLA, frequency domain, DCT, generalization, robustness, one-shot transfer">
+  <meta name="author" content="Renming Huang, Chendong Zeng, Wenjing Tang, Jintian Cai, Cewu Lu, Panpan Cai">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Shanghai Jiao Tong University">
+  <meta property="og:title" content="Mimic Intent, Not Just Trajectories (MINT)">
+  <meta property="og:description" content="MINT disentangles intent from execution via multi-scale frequency-space action tokenization, improving robustness, efficiency, and one-shot transfer in robot manipulation imitation learning.">
+  <meta property="og:url" content="https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE">
+  <meta property="og:image" content="static/images/carousel1.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mimic Intent, Not Just Trajectories (MINT) - Research Preview">
+  <meta property="article:published_time" content="2026-02-09T00:00:00.000Z">
+  <meta property="article:author" content="Renming Huang">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="robotics">
+  <meta property="article:tag" content="imitation learning">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
+  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
+  <meta name="twitter:title" content="Mimic Intent, Not Just Trajectories (MINT)">
+  <meta name="twitter:description" content="MINT disentangles intent from execution via multi-scale frequency-space action tokenization, improving robustness, efficiency, and one-shot transfer in robot manipulation imitation learning.">
+  <meta name="twitter:image" content="static/images/carousel1.jpg">
+  <meta name="twitter:image:alt" content="Mimic Intent, Not Just Trajectories (MINT) - Research Preview">
+
+  <meta name="citation_title" content="Mimic Intent, Not Just Trajectories">
+  <meta name="citation_author" content="Huang, Renming">
+  <meta name="citation_author" content="Zeng, Chendong">
+  <meta name="citation_author" content="Tang, Wenjing">
+  <meta name="citation_author" content="Cai, Jintian">
+  <meta name="citation_author" content="Lu, Cewu">
+  <meta name="citation_author" content="Cai, Panpan">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="arXiv">
+  <meta name="citation_pdf_url" content="static/pdfs/paper.pdf">
+
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>Mimic Intent, Not Just Trajectories (MINT)</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.png">
+  <link rel="apple-touch-icon" href="static/images/favicon.png">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Mimic Intent, Not Just Trajectories",
+    "description": "MINT disentangles intent from execution via multi-scale frequency-space action tokenization, improving robustness, efficiency, and one-shot transfer in robot manipulation imitation learning.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Renming Huang",
+        "affiliation": { "@type": "Organization", "name": "Shanghai Jiao Tong University" }
+      },
+      {
+        "@type": "Person",
+        "name": "Chendong Zeng",
+        "affiliation": { "@type": "Organization", "name": "Shanghai Jiao Tong University" }
+      },
+      {
+        "@type": "Person",
+        "name": "Wenjing Tang",
+        "affiliation": { "@type": "Organization", "name": "Shanghai Jiao Tong University" }
+      },
+      {
+        "@type": "Person",
+        "name": "Jintian Cai",
+        "affiliation": { "@type": "Organization", "name": "Shanghai Jiao Tong University" }
+      },
+      {
+        "@type": "Person",
+        "name": "Cewu Lu",
+        "affiliation": { "@type": "Organization", "name": "Shanghai Jiao Tong University" }
+      },
+      {
+        "@type": "Person",
+        "name": "Panpan Cai",
+        "affiliation": { "@type": "Organization", "name": "Shanghai Jiao Tong University" }
+      }
+    ],
+    "datePublished": "2026-02-09",
+    "publisher": { "@type": "Organization", "name": "arXiv" },
+    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
+    "image": "static/images/carousel1.jpg",
+    "keywords": [
+      "imitation learning",
+      "robotics",
+      "manipulation",
+      "action tokenization",
+      "VLA",
+      "generalization",
+      "robustness",
+      "one-shot transfer"
+    ],
+    "abstract": "We propose MINT, an imitation learning framework that disentangles behavioral intent from execution details using multi-scale frequency-space action tokenization.",
+    "citation": "@article{huang2026mint, title={Mimic Intent, Not Just Trajectories}, author={Huang, Renming and Zeng, Chendong and Tang, Wenjing and Cai, Jintian and Lu, Cewu and Cai, Panpan}, journal={arXiv preprint arXiv:2602.08602}, year={2026}}",
+    "isAccessibleForFree": true,
+    "mainEntity": { "@type": "WebPage", "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE" },
+    "about": [
+      { "@type": "Thing", "name": "Robotics" },
+      { "@type": "Thing", "name": "Imitation Learning" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Shanghai Jiao Tong University",
+    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
+    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.png",
+    "sameAs": [
+      "https://twitter.com/YOUR_TWITTER_HANDLE",
+      "https://github.com/YOUR_GITHUB_USERNAME"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+
+  <main id="main-content">
+
+    <section class="hero" id="top">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title"><img src="static/images/favicon.png" style="height:40px;vertical-align:middle;margin-right:10px;">Mimic Intent, Not Just Trajectories</h1>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"><a href="https://scholar.google.com/citations?user=Bmm2-UgAAAAJ&hl=en" target="_blank" rel="noopener">Renming Huang</a>,</span>
+                <span class="author-block"><a href="#" target="_blank" rel="noopener">Chendong Zeng</a>,</span>
+                <span class="author-block"><a href="#" target="_blank" rel="noopener">Wenjing Tang</a>,</span>
+                <span class="author-block"><a href="#" target="_blank" rel="noopener">Jintian Cai</a>,</span>
+                <span class="author-block"><a href="#" target="_blank" rel="noopener">Cewu Lu</a>,</span>
+                <span class="author-block"><a href="#" target="_blank" rel="noopener">Panpan Cai</a><sup>†</sup></span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">Shanghai Jiao Tong University, Shanghai Innovation Institute</span>
+              </div>
+
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2602.08602" target="_blank" class="external-link button is-normal is-rounded is-dark" rel="noopener">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://github.com/RenMing-Huang/MINT" target="_blank" class="external-link button is-normal is-rounded is-dark" rel="noopener">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://huggingface.co/huangrm/MINT-libero" target="_blank" class="external-link button is-normal is-rounded is-dark" rel="noopener">
+                    <span class="icon"><i class="fas fa-cube"></i></span>
+                    <span>HuggingFace Model</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="#videos" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-video"></i></span>
+                    <span>Videos</span>
+                  </a>
+                </span>
+              </div>
+
+              <div class="framework-figures">
+                <div class="framework-figure-item">
+                  <img src="static/images/teaser.png" alt="teaser" loading="lazy"/>
+                  <h2 class="subtitle has-text-left"><em>SDAT maps each action chunk into multi-scale tokens: coarse tokens capture <strong>intent</strong>, and fine tokens capture <strong>execution details</strong>. The S1 token space forms behavior-level clusters.</em></h2>
+                </div>
+
+                <div class="framework-figure-item">
+                  <img src="static/images/overview.jpg" alt="overview" loading="lazy"/>
+                  <h2 class="subtitle has-text-left"><em>MINT predicts tokens from intent to execution with next-scale autoregression, then decodes them into actions. Intent-based ensemble improves long-horizon stability.</em></h2>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="abstract">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                While imitation learning has achieved impressive success in dexterous manipulation through generative modeling and pretraining, state-of-the-art approaches such as <strong>Vision-Language-Action models</strong> still struggle with adapting to environmental changes and transferring skills. We argue that this limitation arises from mimicking raw trajectories without understanding the underlying intent. To address this, we propose <span class="method">MINT</span> (<em>Mimic Intent, Not Just Trajectories</em>), which explicitly disentangles behavior intent from execution details in end-to-end imitation learning through <strong>multi-scale frequency-space tokenization</strong>. Our method learns action tokens with a coarse-to-fine spectral hierarchy, where the coarsest token captures low-frequency global structure and finer tokens encode high-frequency execution details, yielding an abstract <span class="sc">Intent Token</span> for planning and transfer and multi-scale <span class="sc">Execution Tokens</span> for precise adaptation to environmental dynamics. Building on this hierarchy, the policy generates trajectories via <strong>next-scale autoregression</strong>, performing progressive <strong>intent-to-execution reasoning</strong> that improves learning efficiency and generalization. Crucially, this disentanglement enables <strong>one-shot skill transfer</strong> by simply injecting the <span class="sc">Intent Token</span> from a demonstration into the autoregressive generation process. Experiments on multiple manipulation benchmarks and a real robot demonstrate state-of-the-art success rates, superior inference efficiency, robust generalization under disturbances, and effective one-shot transfer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="highlights">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Highlights</h2>
+            <div class="content has-text-justified">
+              <ul>
+                <li><strong>Disentangle intent vs. execution</strong> with multi-scale frequency-space action tokenization (SDAT): the coarsest token captures low-frequency global structure (intent), while finer tokens model high-frequency residuals (execution).</li>
+                <li><strong>Intent-to-execution reasoning</strong> via next-scale autoregression: autoregressive across scales, parallel within each scale.</li>
+                <li><strong>One-shot transfer</strong> by extracting an intent token from a single demo and injecting it during generation.</li>
+              </ul>
+            </div>
+
+            <div class="columns is-multiline">
+
+              <!-- Core Idea -->
+              <div class="column is-half">
+                <div class="box key-result has-text-left" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+                  <div class="key-result-title pb-3 is-size-5 has-text-weight-bold">✨ Spectral Intent Lens</div>
+                  <div class="key-result-value" style="line-height:1.45;">
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      SDAT decomposes behavior-level
+                    </span><br>
+                    <span style="color:#485fc7; font-size:2.1rem; font-weight:800; text-shadow:1px 1px 2px rgba(72,95,199,0.15);">
+                      Intent Tokens
+                    </span><br>
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      separating what to do from how to execute
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Performance -->
+              <div class="column is-half">
+                <div class="box key-result has-text-left" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+                  <div class="key-result-title pb-3 is-size-5 has-text-weight-bold">🏆 Frontier Metrics</div>
+                  <div class="key-result-value" style="line-height:1.45;">
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      Key results on benchmark and robustness
+                    </span><br>
+                    <span style="color:#00d1b2; font-size:2.3rem; font-weight:800; text-shadow:1px 1px 2px rgba(0,209,178,0.15);">
+                      98.3% / 80.1%
+                    </span><br>
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      LIBERO Avg. / LIBERO-Plus Avg.
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Efficiency -->
+              <div class="column is-half">
+                <div class="box key-result has-text-left" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+                  <div class="key-result-title pb-3 is-size-5 has-text-weight-bold">⚡️ Dual-Scale Validity</div>
+                  <div class="key-result-value" style="line-height:1.45;">
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      One framework validated across
+                    </span><br>
+                    <span style="color:#e38800; font-size:2.3rem; font-weight:800; text-shadow:1px 1px 2px rgba(227,136,0,0.15);">
+                      30M & 4B
+                    </span><br>
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      both lightweight and large policy regimes
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- New Capabilities -->
+              <div class="column is-half">
+                <div class="box key-result has-text-left" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+                  <div class="key-result-title pb-3 is-size-5 has-text-weight-bold">🌟 Intent-Driven Capabilities</div>
+                  <div class="key-result-value" style="line-height:1.45;">
+                    <span class="has-text-grey is-size-6" style="font-weight:500;">
+                      Intent tokens enable
+                    </span><br>
+                    <span style="color:#f14668; font-size:2rem; font-weight:800; text-shadow:1px 1px 2px rgba(241,70,104,0.15);">
+                      One-Shot Transfer
+                    </span><br>
+                    <span style="color:#f14668; font-size:1.7rem; font-weight:800;">
+                      + Intent Ensemble
+                    </span><br>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="videos">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Video Presentation</h2>
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="box">
+                <video class="responsive-video" autoplay muted loop playsinline controls preload="metadata">
+                <source src="static/videos/MINT_Demo.mp4" type="video/mp4">
+                </video>
+            </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section class="section hero is-light" id="results">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+
+        <div class="columns is-multiline">
+          <div class="column is-full">
+            <div class="box">
+              <h3 class="title is-5 has-text-centered">Performance Comparison</h3>
+              <div class="content">
+
+                <ul class="keypoints">
+                  <li><span class="keypoint">Generality Across Scales</span>: Both the lightweight <strong class="has-text-info">MINT-30M</strong> and the large-scale <strong class="has-text-info">MINT-4B</strong> achieve state-of-the-art success rates, demonstrating the universal effectiveness of spectral disentanglement regardless of underlying model capacity.</li>
+                  <li><span class="keypoint">Benchmark Superiority</span>: MINT consistently surpasses strong VLA baselines across three fundamentally distinct benchmarks (LIBERO, CALVIN, and MetaWorld), validating its superior capacity for stable long-horizon reasoning and precise control.</li>
+                </ul>
+
+                <div class="performance-grid" role="group" aria-label="Performance comparison across LIBERO, CALVIN, and MetaWorld">
+                  <div class="performance-card performance-card--libero">
+                    <div class="performance-card__title">LIBERO</div>
+                    <div class="table-container">
+                      <table class="table is-fullwidth is-striped performance-table">
+                        <thead>
+                          <tr>
+                            <th>Method</th>
+                            <th class="has-text-right">SPATIAL</th>
+                            <th class="has-text-right">OBJECT</th>
+                            <th class="has-text-right">GOAL</th>
+                            <th class="has-text-right">LONG</th>
+                            <th class="has-text-right">Avg.</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="perf-section">
+                            <td colspan="6"><em>Without Pre-training</em></td>
+                          </tr>
+                          <tr>
+                            <td>Diffusion Policy</td>
+                            <td class="has-text-right">78.3</td>
+                            <td class="has-text-right">92.5</td>
+                            <td class="has-text-right">68.3</td>
+                            <td class="has-text-right">50.5</td>
+                            <td class="has-text-right">72.4</td>
+                          </tr>
+                          <tr>
+                            <td>MDT</td>
+                            <td class="has-text-right">78.5</td>
+                            <td class="has-text-right">87.5</td>
+                            <td class="has-text-right">73.5</td>
+                            <td class="has-text-right">64.8</td>
+                            <td class="has-text-right">76.1</td>
+                          </tr>
+                          <tr>
+                            <td>WorldVLA</td>
+                            <td class="has-text-right">87.6</td>
+                            <td class="has-text-right">96.2</td>
+                            <td class="has-text-right">83.4</td>
+                            <td class="has-text-right">60.0</td>
+                            <td class="has-text-right">81.8</td>
+                          </tr>
+                          <tr>
+                            <td>SmolVLA</td>
+                            <td class="has-text-right">93.0</td>
+                            <td class="has-text-right">94.0</td>
+                            <td class="has-text-right">91.0</td>
+                            <td class="has-text-right">77.0</td>
+                            <td class="has-text-right">88.8</td>
+                          </tr>
+                          <tr class="perf-row--ours">
+                            <td><strong>MINT-30M</strong></td>
+                            <td class="has-text-right"><strong>98.6</strong></td>
+                            <td class="has-text-right"><strong>99.2</strong></td>
+                            <td class="has-text-right"><strong>97.4</strong></td>
+                            <td class="has-text-right"><strong>93.2</strong></td>
+                            <td class="has-text-right"><strong>97.1</strong></td>
+                          </tr>
+
+                          <tr class="perf-section">
+                            <td colspan="6"><em>With Pre-training</em></td>
+                          </tr>
+                          <tr>
+                            <td>LAPA</td>
+                            <td class="has-text-right">73.8</td>
+                            <td class="has-text-right">74.6</td>
+                            <td class="has-text-right">58.8</td>
+                            <td class="has-text-right">55.4</td>
+                            <td class="has-text-right">65.7</td>
+                          </tr>
+                          <tr>
+                            <td>OpenVLA</td>
+                            <td class="has-text-right">84.7</td>
+                            <td class="has-text-right">88.4</td>
+                            <td class="has-text-right">79.2</td>
+                            <td class="has-text-right">53.7</td>
+                            <td class="has-text-right">76.5</td>
+                          </tr>
+                          <tr>
+                            <td>π0-FAST</td>
+                            <td class="has-text-right">96.4</td>
+                            <td class="has-text-right">96.8</td>
+                            <td class="has-text-right">88.6</td>
+                            <td class="has-text-right">60.2</td>
+                            <td class="has-text-right">85.5</td>
+                          </tr>
+                          <tr>
+                            <td>π0</td>
+                            <td class="has-text-right">90.0</td>
+                            <td class="has-text-right">86.0</td>
+                            <td class="has-text-right">95.0</td>
+                            <td class="has-text-right">73.0</td>
+                            <td class="has-text-right">86.0</td>
+                          </tr>
+                          <tr>
+                            <td>UniVLA</td>
+                            <td class="has-text-right">96.5</td>
+                            <td class="has-text-right">96.8</td>
+                            <td class="has-text-right">95.6</td>
+                            <td class="has-text-right">92.0</td>
+                            <td class="has-text-right">95.2</td>
+                          </tr>
+                          <tr>
+                            <td>OpenVLA-OFT</td>
+                            <td class="has-text-right">96.9</td>
+                            <td class="has-text-right">98.1</td>
+                            <td class="has-text-right">95.6</td>
+                            <td class="has-text-right">91.1</td>
+                            <td class="has-text-right">95.4</td>
+                          </tr>
+                          <tr>
+                            <td>π0.5</td>
+                            <td class="has-text-right"><strong>98.8</strong></td>
+                            <td class="has-text-right">98.2</td>
+                            <td class="has-text-right">98.0</td>
+                            <td class="has-text-right">92.4</td>
+                            <td class="has-text-right">96.9</td>
+                          </tr>
+                          <tr class="perf-row--ours">
+                            <td><strong>MINT-4B</strong></td>
+                            <td class="has-text-right">97.4</td>
+                            <td class="has-text-right"><strong>99.6</strong></td>
+                            <td class="has-text-right"><strong>98.2</strong></td>
+                            <td class="has-text-right"><strong>97.8</strong></td>
+                            <td class="has-text-right"><strong>98.3</strong></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="performance-card">
+                    <div class="performance-card__title">CALVIN (ABCD→D)</div>
+                    <div class="table-container">
+                      <table class="table is-fullwidth is-striped performance-table">
+                        <thead>
+                          <tr>
+                            <th>Method</th>
+                            <th class="has-text-right">@1</th>
+                            <th class="has-text-right">@2</th>
+                            <th class="has-text-right">@3</th>
+                            <th class="has-text-right">@4</th>
+                            <th class="has-text-right">@5</th>
+                            <th class="has-text-right">Len</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>RT-1</td>
+                            <td class="has-text-right">84.4</td>
+                            <td class="has-text-right">61.7</td>
+                            <td class="has-text-right">43.8</td>
+                            <td class="has-text-right">32.3</td>
+                            <td class="has-text-right">22.7</td>
+                            <td class="has-text-right">2.45</td>
+                          </tr>
+                          <tr>
+                            <td>Robo-Flamingo</td>
+                            <td class="has-text-right">96.4</td>
+                            <td class="has-text-right">89.6</td>
+                            <td class="has-text-right">82.4</td>
+                            <td class="has-text-right">74.0</td>
+                            <td class="has-text-right">66.0</td>
+                            <td class="has-text-right">4.09</td>
+                          </tr>
+                          <tr>
+                            <td>π0.5</td>
+                            <td class="has-text-right">94.2</td>
+                            <td class="has-text-right">89.3</td>
+                            <td class="has-text-right">82.7</td>
+                            <td class="has-text-right">78.5</td>
+                            <td class="has-text-right">70.3</td>
+                            <td class="has-text-right">4.15</td>
+                          </tr>
+                          <tr>
+                            <td>UnifiedVLA</td>
+                            <td class="has-text-right"><strong>97.9</strong></td>
+                            <td class="has-text-right"><strong>94.8</strong></td>
+                            <td class="has-text-right">89.2</td>
+                            <td class="has-text-right">82.8</td>
+                            <td class="has-text-right">75.1</td>
+                            <td class="has-text-right">4.34</td>
+                          </tr>
+                          <tr>
+                            <td>RoboVLMs</td>
+                            <td class="has-text-right">96.7</td>
+                            <td class="has-text-right">93.0</td>
+                            <td class="has-text-right">89.9</td>
+                            <td class="has-text-right">86.5</td>
+                            <td class="has-text-right">82.6</td>
+                            <td class="has-text-right">4.49</td>
+                          </tr>
+                          <tr class="perf-row--ours">
+                            <td><strong>MINT-4B</strong></td>
+                            <td class="has-text-right">97.4</td>
+                            <td class="has-text-right">94.2</td>
+                            <td class="has-text-right"><strong>91.7</strong></td>
+                            <td class="has-text-right"><strong>88.2</strong></td>
+                            <td class="has-text-right"><strong>86.1</strong></td>
+                            <td class="has-text-right"><strong>4.57</strong></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="performance-card">
+                    <div class="performance-card__title">MetaWorld</div>
+                    <div class="table-container">
+                      <table class="table is-fullwidth is-striped performance-table">
+                        <thead>
+                          <tr>
+                            <th>Method</th>
+                            <th class="has-text-right">Easy</th>
+                            <th class="has-text-right">Medium</th>
+                            <th class="has-text-right">Hard</th>
+                            <th class="has-text-right">Very Hard</th>
+                            <th class="has-text-right">Avg.</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Diffusion Policy</td>
+                            <td class="has-text-right">23.1</td>
+                            <td class="has-text-right">10.7</td>
+                            <td class="has-text-right">1.9</td>
+                            <td class="has-text-right">6.1</td>
+                            <td class="has-text-right">10.5</td>
+                          </tr>
+                          <tr>
+                            <td>TinyVLA</td>
+                            <td class="has-text-right">77.6</td>
+                            <td class="has-text-right">21.5</td>
+                            <td class="has-text-right">11.4</td>
+                            <td class="has-text-right">15.8</td>
+                            <td class="has-text-right">31.6</td>
+                          </tr>
+                          <tr>
+                            <td>π0</td>
+                            <td class="has-text-right">77.9</td>
+                            <td class="has-text-right">51.8</td>
+                            <td class="has-text-right">53.3</td>
+                            <td class="has-text-right">20.0</td>
+                            <td class="has-text-right">50.8</td>
+                          </tr>
+                          <tr class="perf-row--ours">
+                            <td><strong>MINT-4B</strong></td>
+                            <td class="has-text-right"><strong>82.1</strong></td>
+                            <td class="has-text-right"><strong>72.4</strong></td>
+                            <td class="has-text-right"><strong>58.3</strong></td>
+                            <td class="has-text-right"><strong>56.0</strong></td>
+                            <td class="has-text-right"><strong>67.2</strong></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="main-results-figures">
+                <div class="columns is-variable is-2 is-multiline main-playlist-row">
+                  <div class="column is-one-third">
+                    <div class="video-playlist" data-playlist="libero">
+                      <div class="playlist-header has-text-centered">LIBERO</div>
+                      <div class="playlist-media">
+                        <button class="playlist-nav playlist-nav--prev" type="button" data-action="prev" aria-label="Previous video">
+                          <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                        </button>
+                        <video class="responsive-video playlist-video" muted playsinline autoplay preload="metadata"></video>
+                        <button class="playlist-nav playlist-nav--next" type="button" data-action="next" aria-label="Next video">
+                          <span class="icon"><i class="fas fa-chevron-right"></i></span>
+                        </button>
+                      </div>
+                      <div class="video-task" aria-live="polite"></div>
+                    </div>
+                  </div>
+
+                  <div class="column is-one-third">
+                    <div class="video-playlist" data-playlist="calvin">
+                      <div class="playlist-header has-text-centered">CALVIN</div>
+                      <div class="playlist-media">
+                        <button class="playlist-nav playlist-nav--prev" type="button" data-action="prev" aria-label="Previous video">
+                          <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                        </button>
+                        <video class="responsive-video playlist-video" muted playsinline autoplay preload="metadata"></video>
+                        <button class="playlist-nav playlist-nav--next" type="button" data-action="next" aria-label="Next video">
+                          <span class="icon"><i class="fas fa-chevron-right"></i></span>
+                        </button>
+                      </div>
+                      <div class="video-task" aria-live="polite"></div>
+                    </div>
+                  </div>
+
+                  <div class="column is-one-third">
+                    <div class="video-playlist" data-playlist="metaworld">
+                      <div class="playlist-header has-text-centered">MetaWorld</div>
+                      <div class="playlist-media">
+                        <button class="playlist-nav playlist-nav--prev" type="button" data-action="prev" aria-label="Previous video">
+                          <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                        </button>
+                        <video class="responsive-video playlist-video" muted playsinline autoplay preload="metadata"></video>
+                        <button class="playlist-nav playlist-nav--next" type="button" data-action="next" aria-label="Next video">
+                          <span class="icon"><i class="fas fa-chevron-right"></i></span>
+                        </button>
+                      </div>
+                      <div class="video-task" aria-live="polite"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-full">
+            <div class="box">
+              <h3 class="title is-5 has-text-centered">Generalization</h3>
+              <div class="content">
+                <ul class="keypoints">
+                  <li><span class="keypoint">Robust Invariance</span>: Performance remains remarkably stable across seven distinct distribution shifts in the LIBERO-Plus suite, validating that decoupling intent from high-frequency execution drastically improves robustness to variations.</li>
+                  <li><span class="keypoint">Perturbation Resilience</span>: By securely abstracting behavioral intent, the policy sidesteps spurious environmental cues, achieving up to an absolute 15% success rate jump over baseline models under intense visual, linguistic, and physical disturbances.</li>
+                </ul>
+
+                <div class="table-frame" role="group" aria-label="Generalization comparison on LIBERO-PLUS">
+                  <div class="table-container">
+                    <table class="table is-fullwidth is-striped performance-table">
+                    <thead>
+                      <tr>
+                        <th>Method</th>
+                        <th class="has-text-right">Camera</th>
+                        <th class="has-text-right">Robot</th>
+                        <th class="has-text-right">Lang.</th>
+                        <th class="has-text-right">Light</th>
+                        <th class="has-text-right">Back.</th>
+                        <th class="has-text-right">Noise</th>
+                        <th class="has-text-right">Layout</th>
+                        <th class="has-text-right">Avg.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>OpenVLA</td>
+                        <td class="has-text-right">0.8</td>
+                        <td class="has-text-right">3.5</td>
+                        <td class="has-text-right">23.0</td>
+                        <td class="has-text-right">8.1</td>
+                        <td class="has-text-right">34.8</td>
+                        <td class="has-text-right">15.2</td>
+                        <td class="has-text-right">28.5</td>
+                        <td class="has-text-right">16.3</td>
+                      </tr>
+                      <tr>
+                        <td>UniVLA</td>
+                        <td class="has-text-right">1.8</td>
+                        <td class="has-text-right">46.2</td>
+                        <td class="has-text-right">69.9</td>
+                        <td class="has-text-right">69.0</td>
+                        <td class="has-text-right">81.0</td>
+                        <td class="has-text-right">21.2</td>
+                        <td class="has-text-right">31.9</td>
+                        <td class="has-text-right">45.9</td>
+                      </tr>
+                      <tr>
+                        <td>&pi;<sub>0</sub></td>
+                        <td class="has-text-right">13.8</td>
+                        <td class="has-text-right">6.0</td>
+                        <td class="has-text-right">58.8</td>
+                        <td class="has-text-right">85.0</td>
+                        <td class="has-text-right">81.4</td>
+                        <td class="has-text-right">79.0</td>
+                        <td class="has-text-right">68.9</td>
+                        <td class="has-text-right">56.1</td>
+                      </tr>
+                      <tr>
+                        <td>&pi;<sub>0</sub>-FAST</td>
+                        <td class="has-text-right">65.1</td>
+                        <td class="has-text-right">21.6</td>
+                        <td class="has-text-right">61.0</td>
+                        <td class="has-text-right">73.2</td>
+                        <td class="has-text-right">73.2</td>
+                        <td class="has-text-right">74.4</td>
+                        <td class="has-text-right">68.8</td>
+                        <td class="has-text-right">62.5</td>
+                      </tr>
+                      <tr>
+                        <td>OpenVLA-OFT</td>
+                        <td class="has-text-right">56.4</td>
+                        <td class="has-text-right">31.9</td>
+                        <td class="has-text-right">79.5</td>
+                        <td class="has-text-right">88.7</td>
+                        <td class="has-text-right"><strong>93.3</strong></td>
+                        <td class="has-text-right">75.8</td>
+                        <td class="has-text-right">74.2</td>
+                        <td class="has-text-right">71.4</td>
+                      </tr>
+                      <tr>
+                        <td>&pi;<sub>0.5</sub></td>
+                        <td class="has-text-right">53.0</td>
+                        <td class="has-text-right"><strong>50.3</strong></td>
+                        <td class="has-text-right">65.7</td>
+                        <td class="has-text-right">83.1</td>
+                        <td class="has-text-right">77.3</td>
+                        <td class="has-text-right">53.2</td>
+                        <td class="has-text-right">72.7</td>
+                        <td class="has-text-right">65.0</td>
+                      </tr>
+                      <tr class="perf-row--ours">
+                        <td>MINT-30M</td>
+                        <td class="has-text-right">61.4</td>
+                        <td class="has-text-right">41.2</td>
+                        <td class="has-text-right">61.6</td>
+                        <td class="has-text-right">92.2</td>
+                        <td class="has-text-right">77.1</td>
+                        <td class="has-text-right">76.5</td>
+                        <td class="has-text-right">76.2</td>
+                        <td class="has-text-right">69.5</td>
+                      </tr>
+                      <tr class="perf-row--ours">
+                        <td><strong>MINT-4B</strong></td>
+                        <td class="has-text-right"><strong>72.2</strong></td>
+                        <td class="has-text-right">42.4</td>
+                        <td class="has-text-right"><strong>85.8</strong></td>
+                        <td class="has-text-right"><strong>96.6</strong></td>
+                        <td class="has-text-right">88.9</td>
+                        <td class="has-text-right"><strong>90.1</strong></td>
+                        <td class="has-text-right"><strong>84.6</strong></td>
+                        <td class="has-text-right"><strong>80.1</strong></td>
+                      </tr>
+
+                      <tr class="perf-section">
+                        <td colspan="9"><em>Trained with LIBERO Plus</em></td>
+                      </tr>
+                      <tr>
+                        <td>OpenVLA-OFT+</td>
+                        <td class="has-text-right">92.8</td>
+                        <td class="has-text-right">30.3</td>
+                        <td class="has-text-right"><strong>85.8</strong></td>
+                        <td class="has-text-right">94.9</td>
+                        <td class="has-text-right">93.9</td>
+                        <td class="has-text-right">89.3</td>
+                        <td class="has-text-right">77.6</td>
+                        <td class="has-text-right">80.7</td>
+                      </tr>
+                      <tr>
+                        <td>&pi;<sub>0.5</sub>+</td>
+                        <td class="has-text-right">67.2</td>
+                        <td class="has-text-right">42.4</td>
+                        <td class="has-text-right">59.4</td>
+                        <td class="has-text-right">75.8</td>
+                        <td class="has-text-right">74.9</td>
+                        <td class="has-text-right">72.6</td>
+                        <td class="has-text-right">64.5</td>
+                        <td class="has-text-right">65.3</td>
+                      </tr>
+                      <tr class="perf-row--ours">
+                        <td><strong>MINT-4B+</strong></td>
+                        <td class="has-text-right"><strong>95.6</strong></td>
+                        <td class="has-text-right"><strong>44.6</strong></td>
+                        <td class="has-text-right">84.7</td>
+                        <td class="has-text-right"><strong>95.1</strong></td>
+                        <td class="has-text-right"><strong>94.5</strong></td>
+                        <td class="has-text-right"><strong>95.2</strong></td>
+                        <td class="has-text-right"><strong>78.7</strong></td>
+                        <td class="has-text-right"><strong>84.1</strong></td>
+                      </tr>
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div id="robustness-gallery" class="robustness-gallery" data-manifest="static/videos/generalization/playlist.json">
+                <p class="has-text-grey">Loading robustness videos…</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-full">
+            <div class="box">
+              <h3 class="title is-5 has-text-centered">One-shot Transfer via Intent Token Injection</h3>
+              <div class="content">
+
+                <ul class="keypoints">
+                  <li><span class="keypoint">Zero-Gradient Adaptation</span>: By extracting and injecting an explicit intent token from just a single demonstration, MINT achieves highly controllable zero-gradient transfer that significantly outperforms conventional fine-tuning techniques.</li>
+                  <li><span class="keypoint">Compositional Generalization</span>: Utilizing the intent token as a grounded task specification fundamentally enables the policy to transfer complex skills effectively to completely novel task semantics, layouts, and heavily extended horizons.</li>
+                </ul>
+
+                <div class="table-frame" role="group" aria-label="One-shot transfer results">
+                  <div class="table-container">
+                    <table class="table is-fullwidth is-striped performance-table performance-table--free">
+                      <thead>
+                        <tr>
+                          <th>Method</th>
+                          <th>Task<br>Specification</th>
+                          <th class="has-text-right">New<br>Task</th>
+                          <th class="has-text-right">New<br>Layout</th>
+                          <th class="has-text-right">Extend<br>Horizon</th>
+                          <th class="has-text-right">Avg.</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Replay</td>
+                          <td>Replay</td>
+                          <td class="has-text-right">0.28</td>
+                          <td class="has-text-right">0.12</td>
+                          <td class="has-text-right">0.04</td>
+                          <td class="has-text-right">0.11</td>
+                        </tr>
+                        <tr>
+                          <td>Fine-tune (MINT-30M)</td>
+                          <td>Language</td>
+                          <td class="has-text-right">0.42</td>
+                          <td class="has-text-right">0.08</td>
+                          <td class="has-text-right">0.00</td>
+                          <td class="has-text-right">0.17</td>
+                        </tr>
+                        <tr class="perf-row--ours">
+                          <td><strong>Intent-injection (MINT-Zero-30M)</strong></td>
+                          <td>Intent</td>
+                          <td class="has-text-right"><strong>0.90</strong></td>
+                          <td class="has-text-right"><strong>0.68</strong></td>
+                          <td class="has-text-right"><strong>0.72</strong></td>
+                          <td class="has-text-right"><strong>0.77</strong></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div id="one-shot-transfer" class="one-shot-transfer" data-manifest="static/videos/one_shot/playlist.json">
+                <p class="has-text-grey">Loading one-shot transfer videos…</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-full">
+            <div class="box">
+              <h3 class="title is-5 has-text-centered">Real-World Experiments</h3>
+              <div class="content">
+                <ul class="keypoints">
+                  <li><span class="keypoint">Sample Efficiency</span>: MINT flawlessly bridges the sim-to-real gap demanding remarkably few resources—mastering intricate tasks with merely ~20 demonstrations per task, outpacing standard generalist agents.</li>
+                  <li><span class="keypoint">Execution reliability</span>: The underlying structural disentanglement helps the policy negotiate unmodeled real-world kinematics and sensory imperfections smoothly, securing robust precision tasks and zero-shot novel geometry deployment.</li>
+                </ul>
+              </div>
+              <div id="real-world-gallery" class="real-world-gallery" data-manifest="static/videos/real_world/playlist.json">
+                <p class="has-text-grey">Loading real-world videos…</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-full">
+            <div class="box">
+              <h3 class="title is-5 has-text-centered">Ablations</h3>
+              <div class="content">
+                <ul class="keypoints">
+                  <li><span class="keypoint">SDAT is the Core Engine</span>: Substituting our spectral scale-wise reconstruction with standard time-domain loss cascades into performance drops, confirming that explicit frequency-space mapping is the pivotal mechanism separating true intent from execution artifacts.</li>
+                  <li><span class="keypoint">Intent Ensemble Balances Tradeoffs</span>: Utilizing an intent-based dynamic action aggregation strategically combines sequence <em>stability</em> essential for long horizons with rapid <em>flexibility</em> needed during complex behavioral switching.</li>
+                </ul>
+              </div>
+
+              <div class="ablation-grid" role="group" aria-label="Ablation tables and ensemble comparisons">
+                <div class="ablation-row ablation-row--tables" aria-label="Ablation tables">
+                  <div class="ablation-card">
+                    <div class="ablation-card__title">Reconstruction Objectives</div>
+                    <div class="table-container">
+                      <table class="table is-fullwidth is-striped ablation-table">
+                        <thead>
+                          <tr>
+                            <th>Ablation Setting </th>
+                            <th class="has-text-right">CALVIN</th>
+                            <th class="has-text-right">LIBERO</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Terminal Time-Domain Loss</td>
+                            <td class="has-text-right">4.36</td>
+                            <td class="has-text-right">87.8</td>
+                          </tr>
+                          <tr>
+                            <td>+ Terminal Spectral Loss</td>
+                            <td class="has-text-right">4.41</td>
+                            <td class="has-text-right">88.2</td>
+                          </tr>
+                          <tr>
+                            <td>+ Scale-Wise Time Loss</td>
+                            <td class="has-text-right">4.06</td>
+                            <td class="has-text-right">82.8</td>
+                          </tr>
+                          <tr class="ablation-row--highlight">
+                            <td>+ Scale-Wise Spectral Loss</td>
+                            <td class="has-text-right"><strong>4.54</strong></td>
+                            <td class="has-text-right"><strong>93.4</strong></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="ablation-card">
+                    <div class="ablation-card__title">Action Ensemble</div>
+                    <div class="table-container">
+                      <table class="table is-fullwidth is-striped ablation-table">
+                        <thead>
+                          <tr>
+                            <th>Ablation Setting</th>
+                            <th class="has-text-right">CALVIN</th>
+                            <th class="has-text-right">LIBERO</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>No Ensemble</td>
+                            <td class="has-text-right">4.09</td>
+                            <td class="has-text-right">85.8</td>
+                          </tr>
+                          <tr>
+                            <td>Temporal Ensemble</td>
+                            <td class="has-text-right">4.32</td>
+                            <td class="has-text-right">89.2</td>
+                          </tr>
+                          <tr>
+                            <td>Action Ensemble</td>
+                            <td class="has-text-right">4.10</td>
+                            <td class="has-text-right">90.4</td>
+                          </tr>
+                          <tr class="ablation-row--highlight">
+                            <td>Intent Ensemble</td>
+                            <td class="has-text-right"><strong>4.57</strong></td>
+                            <td class="has-text-right"><strong>93.2</strong></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ablation-row ablation-row--videos" aria-label="Ensemble comparison videos">
+                  <div class="ablation-video-card ablation-video-card--intent">
+                    <div class="ablation-video-title">Intent-based Ensemble</div>
+                    <div class="ablation-video-frame">
+                      <video class="responsive-video ablation-video" muted playsinline autoplay preload="metadata">
+                        <source src="static/videos/ensemble/Intent_based_Ensemble.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                  </div>
+
+                  <div class="ablation-video-card">
+                    <div class="ablation-video-title">No Ensemble</div>
+                    <div class="ablation-video-frame">
+                      <video class="responsive-video ablation-video" muted playsinline autoplay preload="metadata">
+                        <source src="static/videos/ensemble/No_Ensemble.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                  </div>
+
+                  <div class="ablation-video-card">
+                    <div class="ablation-video-title">Temporal Ensemble</div>
+                    <div class="ablation-video-frame">
+                      <video class="responsive-video ablation-video" muted playsinline autoplay preload="metadata">
+                        <source src="static/videos/ensemble/Temporal_Ensemble.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@article{huang2026mimic,
+        title={Mimic Intent, Not Just Trajectories},
+        author={Huang, Renming and Zeng, Chendong and Tang, Wenjing and Cai, jintian and Lu, Cewu and Cai, Panpan},
+        journal={arXiv preprint arXiv:2602.08602},
+        year={2026}
+}</code></pre>
+      </div>
+    </section>
+    </main>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
+            <br> This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
