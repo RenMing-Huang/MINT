@@ -464,7 +464,8 @@ def run_vqvae_training(cfg: DictConfig):
                 ckpt_path = os.path.join(work_dir, f"vae-ckpt-{ep + 1}.pth")
                 torch.save(ckpt_payload, ckpt_path)
                 print(f"[saving ckpt] {ckpt_path}")
-            fabric.barrier()
+
+        fabric.barrier()
 
         if (not bool(cfg.get("dry", False))) and fabric.is_global_zero:
             epoch_metrics = {f"epoch/{k}": v for k, v in stats.items()}
