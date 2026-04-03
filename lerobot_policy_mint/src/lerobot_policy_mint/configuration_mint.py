@@ -72,7 +72,10 @@ class MINTConfig(PreTrainedConfig):
     def __post_init__(self):
         super().__post_init__()
 
-        self._load_vqvae_runtime_config()
+        if self.vqvae_name_or_path:
+            self._load_vqvae_runtime_config()
+        elif self.pretrained_path is None:
+            raise ValueError("`vqvae_name_or_path` is required.")
 
         # Validate configuration
         if self.n_action_steps > self.chunk_size:
