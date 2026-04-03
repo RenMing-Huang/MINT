@@ -587,7 +587,6 @@ class MINTPytorch(nn.Module):
 
         if config.vqvae_name_or_path:
             self.multi_scale_vqvae.load_vqvae_weights(config.vqvae_name_or_path)
-            config.vqvae_name_or_path = ""
         # freeze vqvae
         for param in self.multi_scale_vqvae.parameters():
             param.requires_grad = False
