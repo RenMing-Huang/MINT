@@ -101,12 +101,12 @@ Start training:
 
 ```bash
 lerobot-train \
-    --dataset.repo_id=<your_dataset> \
+    --dataset.repo_id=HuggingFaceVLA/libero \
     --policy.type=mint \
     --output_dir=./outputs/mint_training \
     --job_name=mint_training \
-    --policy.repo_id=<your_repo_id> \
-    --policy.pretrained_path=huangrm/pi05_base \ # training from pi05 base model
+    --policy.repo_id=mint \
+    --policy.pretrained_path=huangrm/pi05_base \
     --policy.vqvae_name_or_path=<path/to/tokenizer> \
     --policy.compile_model=false \
     --policy.gradient_checkpointing=true \
@@ -126,7 +126,6 @@ lerobot-eval \
     --env.task=libero_10,libero_object,libero_spatial,libero_goal \
     --eval.batch_size=1 \
     --eval.n_episodes=2 \
-    --seed=42 \
     --policy.n_action_steps=4
 ```
 
