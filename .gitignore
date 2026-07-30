@@ -3,6 +3,7 @@
 wandb/
 outputs/
 log/
+dataset
 # Python cache
 __pycache__/
 *.py[cod]

@@ -5,10 +5,11 @@ defaults:
 exp_name: SDAT_training
 
 # LeRobot dataset locator
-repo_id: HuggingFaceVLA/libero
+repo_id: libero
+root: /inspire/qb-ilm/project/robot-decision/huangrenming-253108120148/dataset/libero_all_lerobot/libero_full
 
 # Runtime
-train_gpus: [0,1,2,3]
+train_gpus: [1,2,3,4,5,6,7]
 mix_precision: false
 amp_dtype: bf16
 seed: 42
@@ -19,9 +20,9 @@ horizon: 16
 action_dim: 7
 
 
-batch_size: 128
+batch_size: 256
 num_workers: 8
-action_norm_mode: none   # gaussian | minmax | quantile | none
+action_norm_mode: none   # gaussian | minmax | quant | none
 
 # Training
 epochs: 100
@@ -30,7 +31,7 @@ ckpt_interval: 20
 
 # Optimizer
 opt: adamw
-lr: 3e-5
+lr: 3e-4
 weight_decay: 0.005
 vwde: 0
 vclip: 10.0
@@ -40,14 +41,20 @@ vwp0: 0.005
 vwpe: 0.3
 vsche: cos
 ac: 1
-dct_loss_weight: 0.1
+dct_loss_weight: 0.05
 
 # Model
 codebook_size: 512
 codebook_dim: 32
-ch: 32
+ch: 48
 ch_mult: [2, 4, 8]
 dropout: 0.1
+
+patchwise: 
+  enable: true
+  d_embed: 8
+  grouped_depth: 2
+  norm: layer
 
 # Quantizer
 beta: 0.25

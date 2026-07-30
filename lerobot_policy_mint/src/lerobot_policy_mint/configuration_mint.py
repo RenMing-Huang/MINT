@@ -19,11 +19,11 @@ class MINTConfig(PreTrainedConfig):
     paligemma_variant: str = "gemma_2b"
     action_expert_variant: str = "gemma_300m"
     train_expert_only: bool = False  # If True, only train the action expert, keep paligemma frozen
-    dtype: str = "bfloat16"  # Options: "bfloat16", "float32"
+    dtype: str = "float32"  # Options: "bfloat16", "float32"
 
     n_obs_steps: int = 1
-    chunk_size: int = 16  # Number of action steps to predict, alignment with multi-scale vqvae
-    n_action_steps: int = 1  # Number of action steps to execute
+    chunk_size: int = 16  # Must match the VQ-VAE horizon
+    n_action_steps: int = 4  # Number of action steps to execute
     label_smooth: float = 0.0  # Label smoothing for action prediction loss
 
     max_state_dim: int = 32
@@ -31,6 +31,11 @@ class MINTConfig(PreTrainedConfig):
 
     # Provide VQVAE checkpoint path. Runtime params are loaded from ckpt_dir/config.yaml.
     vqvae_name_or_path: str | None = ""
+
+    # CNN VQ-VAE parameters. Runtime values are loaded from config.yaml.
+    ch: int = 32
+    ch_mult: tuple[int, ...] = (2, 4, 8)
+    patchwise: dict | None = None
 
     image_resolution: tuple[int, int] = (
         DEFAULT_IMAGE_SIZE,
@@ -46,7 +51,7 @@ class MINTConfig(PreTrainedConfig):
         default_factory=lambda: {
             "VISUAL": NormalizationMode.IDENTITY,
             "STATE": NormalizationMode.QUANTILES,  # mint uses quantiles for state
-            "ACTION": NormalizationMode.IDENTITY,  # mint uses identity for action
+            "ACTION": NormalizationMode.QUANTILES,
         }
     )
 
@@ -67,7 +72,7 @@ class MINTConfig(PreTrainedConfig):
     # For example, --steps=3000 will scale warmup to 100 and decay to 3000
     scheduler_warmup_steps: int = 1_000
     scheduler_decay_steps: int = 30_000
-    scheduler_decay_lr: float = 2.5e-5
+    scheduler_decay_lr: float = 2.5e-6
 
     def __post_init__(self):
         super().__post_init__()
@@ -92,6 +97,11 @@ class MINTConfig(PreTrainedConfig):
         if self.dtype not in ["bfloat16", "float32"]:
             raise ValueError(f"Invalid dtype: {self.dtype}")
 
+        if self.chunk_size <= 0:
+            raise ValueError("chunk_size must be positive")
+        if self.n_action_steps <= 0:
+            raise ValueError("n_action_steps must be positive")
+
     def _load_vqvae_runtime_config(self) -> None:
         if not self.vqvae_name_or_path:
             raise ValueError("`vqvae_name_or_path` is required.")
@@ -104,10 +114,30 @@ class MINTConfig(PreTrainedConfig):
         model_cfg = cfg.get("model_cfg", {})
         quant_cfg = cfg.get("quant_cfg", {})
 
-        for key, value in {**model_cfg, **quant_cfg}.items():
+        runtime_cfg = {**model_cfg, **quant_cfg}
+        if runtime_cfg.get("encoder_type", "cnn") != "cnn":
+            raise ValueError("Only the CNN VQ-VAE backend is supported by this package.")
+        for key in (
+            "encoder_type",
+            "d_model",
+            "n_heads",
+            "n_input_layers",
+            "n_cross_layers",
+            "n_latent_layers",
+            "n_output_layers",
+        ):
+            runtime_cfg.pop(key, None)
+
+        for key, value in runtime_cfg.items():
             setattr(self, key, value)
 
-        assert self.chunk_size == cfg.get("horizon"), "chunk size should align with vqvae horizon"
+        horizon = cfg.get("horizon")
+        if horizon is None:
+            raise ValueError(f"Missing `horizon` in VQ-VAE config: {config_path}")
+        if self.chunk_size != horizon:
+            raise ValueError(
+                f"chunk_size ({self.chunk_size}) must match VQ-VAE horizon ({horizon})"
+            )
         self.vqvae_name_or_path = checkpoint_path
 
     def _resolve_vqvae_paths(self, input_path: str) -> tuple[str, str]:

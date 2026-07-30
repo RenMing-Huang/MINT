@@ -446,12 +446,12 @@ def build_normalizer_from_stats(norm_type: str, stats: Dict[str, Any], eps: floa
 	elif t == "minmax":
 
 		return MinMaxNormalizer(action_dim=ad, min_v=stats["min"], max_v=stats["max"], eps=eps)
-	elif t == "quant":
-     	# Prefer quantiles if available
+	elif t in ("quant", "quantile"):
 		q01 = stats.get("q01")
 		q99 = stats.get("q99")
-		assert q01 is not None and q99 is not None, "Quantile-based normalization requires q01 and q99 in stats."
-		return MinMaxNormalizer(action_dim=ad, min_v=stats["min"], max_v=stats["max"], q01=q01, q99=q99, eps=eps)
+		if q01 is not None and q99 is not None:
+			return MinMaxNormalizer(action_dim=ad, min_v=q01, max_v=q99, q01=q01, q99=q99, eps=eps)
+		return MinMaxNormalizer(action_dim=ad, min_v=stats["min"], max_v=stats["max"], eps=eps)
 	elif t == "cdf":
 		return CDFNormalizer(action_dim=ad, probs=stats["probs"], values=stats["values"], eps=eps)
 	elif t == "identity":

@@ -9,8 +9,8 @@ description = "Standalone MINT policy plugin for LeRobot"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "lerobot==0.4.3",
-    "transformers @ git+https://github.com/huggingface/transformers.git@fix/lerobot_openpi", 
+    "lerobot==0.5.1",
+    "omegaconf>=2.3.0",
     "scipy>=1.10.1,<1.15"
 ]
 

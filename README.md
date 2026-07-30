@@ -42,12 +42,12 @@ We introduce MINT (Mimic Intent, Not just Trajectories), a framework for end-to-
 ## Installation 🛠️
 
 ```bash
-conda create -y -n mint python=3.12
+conda create -y -n mint python=3.12 cmake=3.11
 conda activate mint
 
-pip install lerobot==0.4.3
+pip install lerobot==0.5.1
 # Install LIBERO dependencies via LeRobot:
-pip install "lerobot[libero]==0.4.3"
+pip install "lerobot[libero]==0.5.1"
 
 conda install -y ffmpeg -c conda-forge
 ```
@@ -100,32 +100,37 @@ python -m SDAT.train --config-name train
 Start training:
 
 ```bash
-lerobot-train \
+nohup accelerate launch \
+    --multi_gpu \
+    --num_processes=2 \
+    $(which lerobot-train) \
     --dataset.repo_id=HuggingFaceVLA/libero \
+    --dataset.root=/inspire/qb-ilm/project/robot-decision/huangrenming-253108120148/dataset/libero_all_lerobot/libero_full \
     --policy.type=mint \
-    --output_dir=./outputs/mint_training \
+    --output_dir=./outputs/mint_training_libero_all_f32 \
     --job_name=mint_training \
     --policy.repo_id=mint \
     --policy.pretrained_path=huangrm/pi05_base \
     --policy.vqvae_name_or_path=<path/to/tokenizer> \
     --policy.compile_model=false \
-    --policy.gradient_checkpointing=true \
-    --policy.dtype=bfloat16 \
-    --steps=10000 \
+    --policy.gradient_checkpointing=false \
+    --policy.dtype=float32 \
+    --steps=100000 \
+    --save_freq=20000 \
     --policy.device=cuda \
-    --batch_size=32
+    --batch_size=16 >log/libero_train_all.log 2>&1 &
 ```
 
 ## Evaluation 📊
 
 ```bash
 lerobot-eval \
-    --policy.path=huangrm/MINT-libero \
-    --policy.vqvae_name_or_path=<path/to/tokenizer> \
+    --policy.path=/inspire/qb-ilm/project/robot-decision/huangrenming-253108120148/MINT/outputs/mint_training_libero_all_f32/checkpoints/060000/pretrained_model \
     --env.type=libero \
-    --env.task=libero_10,libero_object,libero_spatial,libero_goal \
+    --env.task=libero_90\
     --eval.batch_size=1 \
-    --eval.n_episodes=2 \
+    --eval.n_episodes=50 \
+    --seed=42 \
     --policy.n_action_steps=4
 ```
 

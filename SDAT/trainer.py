@@ -200,8 +200,9 @@ class VQVAETrainer(object):
             else:
                 l1_rec = F.l1_loss(rec_inp, inp)
 
-            loss_vae = (self.w_vq * loss_vq + 
+            loss_vae = (self.w_vq * loss_vq +
                        self.w_l1 * l1_rec +
+                       self.w_l2 * loss_rec_l2 +
                        self.w_dct * loss_ms_dct)
 
 
