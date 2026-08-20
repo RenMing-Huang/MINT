@@ -155,6 +155,7 @@ lerobot-train \
 ```bash
 lerobot-eval \
     --policy.path=huangrm/MINT-libero-130 \
+    --policy.vqvae_name_or_path=<path/to/tokenizer-checkpoint> \
     --env.type=libero \
     --env.task=libero_90,libero_10,libero_goal,libero_spatial \
     --eval.batch_size=1 \
