@@ -22,12 +22,12 @@ class MINTConfig(PreTrainedConfig):
     dtype: str = "float32"  # Options: "bfloat16", "float32"
 
     n_obs_steps: int = 1
-    chunk_size: int = 16  # Must match the VQ-VAE horizon
+    chunk_size: int = 32  # Must match the VQ-VAE horizon
     n_action_steps: int = 4  # Number of action steps to execute
     label_smooth: float = 0.0  # Label smoothing for action prediction loss
 
     max_state_dim: int = 32
-    max_action_dim: int = 7
+    max_action_dim: int = 8
 
     # Provide VQVAE checkpoint path. Runtime params are loaded from ckpt_dir/config.yaml.
     vqvae_name_or_path: str | None = ""
