@@ -144,7 +144,6 @@ For MINT-Light, use the same command and change the policy type. you can reuse t
 ```bash
 lerobot-train \
     --dataset.repo_id=<dataset-repo-id> \
-    --dataset.root=<path/to/dataset> \
     --policy.type=mint_light \
     --policy.vqvae_name_or_path=<path/to/tokenizer-checkpoint> \
     --policy.device=cuda \
