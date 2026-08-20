@@ -50,7 +50,7 @@ ch: 48
 ch_mult: [2, 4, 8]
 dropout: 0.1
 
-patchwise: 
+patchwise:
   enable: true
   d_embed: 8
   grouped_depth: 2

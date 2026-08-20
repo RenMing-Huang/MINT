@@ -24,11 +24,11 @@
 
 ---
 
-## Overview 
+## Overview
 
 We introduce MINT (Mimic Intent, Not just Trajectories), a framework for end-to-end imitation learning in dexterous manipulation. MINT explicitly <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>disentangles behavior intent from execution details</strong></span> by learning a hierarchical, multi-scale token representation of actions. Coarse tokens capture global, low-frequency intent, while finer tokens encode high-frequency execution details. Our policy generates trajectories via <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>next-scale autoregression</strong></span>, performing progressive <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>intent-to-execution reasoning</strong></span>. This structure enables efficient learning, robust adaptation to environmental dynamics, and <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>one-shot skill transfer</strong></span> by reusing the intent token from a demonstration. Experiments on simulation and real robots demonstrate strong performance, high generalization, and effective skill transfer.
 
-## Open-Source Roadmap 
+## Open-Source Roadmap
 
 | Track | Scope | Status | Target |
 |---|---|---|---|
@@ -39,7 +39,7 @@ We introduce MINT (Mimic Intent, Not just Trajectories), a framework for end-to-
 | 🗓 Multi-dataset Checkpoints | CALVIN / Bridge policy-tokenizer pairs | Planned | 2026 H2 |
 | 🗓 Support Bimanual Manipulation | RoboTwin and other bimanual manipulation benchmarks | Planned | 2026 H3 |
 
-## Installation 
+## Installation
 
 ### LeRobot compatibility
 
@@ -78,7 +78,7 @@ build-essential, python3-dev, pkg-config, and FFmpeg development libraries.
 apt-get install cmake build-essential python3-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev
 ```
 
-## Model Zoo 
+## Model Zoo
 
 The [`policy`](policy) directory contains two independent packages with matching
 `pyproject.toml` plus `src/<package>/` layouts. Install the package you need, then choose
@@ -102,7 +102,7 @@ The [`policy`](policy) directory contains two independent packages with matching
 - MINT-Light (`mint_light`) keeps MINT's coarse-to-fine action-token prediction but replaces
 the large VLM with a fixed DINOv3 ViT-L/16 visual encoder, a SigLIP2 text encoder.
 
-## Training Example 
+## Training Example
 
 First, download the required tokenizer:
 
@@ -151,7 +151,7 @@ lerobot-train \
     --output_dir=<path/to/output>
 ```
 
-## Evaluation 
+## Evaluation
 
 ```bash
 lerobot-eval \
@@ -167,7 +167,7 @@ lerobot-eval \
 Evaluation is identical for MINT-Light: point `--policy.path` at a MINT-Light
 `pretrained_model` directory. LeRobot reads the saved policy type automatically.
 
-## Citation 
+## Citation
 
 If you find this project useful, please cite:
 
@@ -180,10 +180,8 @@ If you find this project useful, please cite:
 }
 ```
 
-## Acknowledgement 
+## Acknowledgement
 
 This project is built on top of excellent open-source ecosystems.
 We sincerely thank the teams behind [LeRobot](https://github.com/huggingface/lerobot)
 and [OpenPI](https://github.com/Physical-Intelligence/openpi) for their impactful contributions.
-
- 
