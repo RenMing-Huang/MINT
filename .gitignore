@@ -3,6 +3,7 @@
 wandb/
 outputs/
 log/
+scripts/
 dataset
 # Python cache
 __pycache__/
@@ -28,3 +29,4 @@ venv/
 .pytest_cache/
 .coverage
 htmlcov/
+.sii
