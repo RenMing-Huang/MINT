@@ -95,7 +95,7 @@ The [`policy`](policy) directory contains two independent packages with matching
 
 | Dataset | Policy | Tokenizer | Status | Notes |
 |---|---|---|---|---|
-| LIBERO | Train locally | [huangrm/MINT-tokenizer-libero-130](https://huggingface.co/huangrm/MINT-tokenizer-libero-130)  | Available | Light-weight version |
+| LIBERO | [huangrm/MINT-light-libero-130](https://huggingface.co/huangrm/MINT-light-libero-130) | [huangrm/MINT-tokenizer-libero-130](https://huggingface.co/huangrm/MINT-tokenizer-libero-130)  | Available | Light-weight version |
 
 
 - MINT-4B (`mint`) uses the PaliGemma backbone and action expert for maximum capacity.
