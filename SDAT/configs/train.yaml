@@ -6,7 +6,7 @@ exp_name: SDAT_training
 
 # LeRobot dataset locator
 repo_id: libero
-root: /inspire/qb-ilm/project/robot-decision/huangrenming-253108120148/dataset/libero_all_lerobot/libero_full
+root: null  # Optional local LeRobot dataset root.
 
 # Runtime
 train_gpus: [1,2,3,4,5,6,7]

@@ -190,7 +190,7 @@ class AdaLNBlock(nn.Module):
 
 
 class AdaLNTransformer(nn.Module):
-    """AdaLN-Zero transformer with SDPA, SwiGLU, and token-level language fusion."""
+    """AdaLN-Zero transformer with optional token-level cross-attention."""
 
     def __init__(
         self,
@@ -203,6 +203,7 @@ class AdaLNTransformer(nn.Module):
         ffn_dropout: float,
         drop_path_rate: float,
         cross_attention_every: int,
+        use_cross_attention: bool = True,
     ):
         super().__init__()
         if cross_attention_every <= 0:
@@ -218,7 +219,9 @@ class AdaLNTransformer(nn.Module):
                     attention_dropout=attention_dropout,
                     ffn_dropout=ffn_dropout,
                     drop_path=drop_path_rates[layer],
-                    use_cross_attention=(layer + 1) % cross_attention_every == 0,
+                    use_cross_attention=(
+                        use_cross_attention and (layer + 1) % cross_attention_every == 0
+                    ),
                 )
                 for layer in range(depth)
             ]

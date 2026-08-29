@@ -95,7 +95,8 @@ The [`policy`](policy) directory contains two independent packages with matching
 
 | Dataset | Policy | Tokenizer | Status | Notes |
 |---|---|---|---|---|
-| LIBERO | [huangrm/MINT-light-libero-130](https://huggingface.co/huangrm/MINT-light-libero-130) | [huangrm/MINT-tokenizer-libero-130](https://huggingface.co/huangrm/MINT-tokenizer-libero-130)  | Available | Light-weight version |
+| LIBERO | [huangrm/MINT-light-libero-130](https://huggingface.co/huangrm/MINT-light-libero-130) | [huangrm/MINT-tokenizer-libero-130](https://huggingface.co/huangrm/MINT-tokenizer-libero-130) | Available | Light-weight version |
+| LIBERO | [huangrm/MINT-light-zero](https://huggingface.co/huangrm/MINT-light-zero) | [huangrm/MINT-tokenizer-libero-130](https://huggingface.co/huangrm/MINT-tokenizer-libero-130) | Available | Visual-only checkpoint for one-shot transfer |
 
 
 - MINT-4B (`mint`) uses the PaliGemma backbone and action expert for maximum capacity.
@@ -145,10 +146,14 @@ For MINT-Light, use the same command and change the policy type. you can reuse t
 lerobot-train \
     --dataset.repo_id=<dataset-repo-id> \
     --policy.type=mint_light \
+    --policy.use_language=true \
     --policy.vqvae_name_or_path=<path/to/tokenizer-checkpoint> \
     --policy.device=cuda \
     --output_dir=<path/to/output>
 ```
+
+`use_language=false` trains the visual-only MINT-Light policy used by one-shot
+transfer.
 
 ## Evaluation
 
@@ -157,15 +162,59 @@ lerobot-eval \
     --policy.path=huangrm/MINT-libero-130 \
     --policy.vqvae_name_or_path=<path/to/tokenizer-checkpoint> \
     --env.type=libero \
-    --env.task=libero_90,libero_10,libero_goal,libero_spatial \
+    --env.task=libero_object,libero_10,libero_goal,libero_spatial \
     --eval.batch_size=1 \
     --eval.n_episodes=50 \
     --seed=1000 \
     --policy.n_action_steps=4
 ```
 
-Evaluation is identical for MINT-Light: point `--policy.path` at a MINT-Light
-`pretrained_model` directory. LeRobot reads the saved policy type automatically.
+Evaluation is identical for MINT-Light: point `--policy.path` at a local
+`pretrained_model` directory or a Hugging Face model ID. LeRobot reads the saved
+policy type automatically.
+
+## One-Shot Transfer
+
+Set the policy and VQ-VAE references to their Hugging Face model IDs. Both are
+downloaded and cached automatically by `from_pretrained`:
+
+```bash
+CHECKPOINT=huangrm/MINT-light-zero
+VQVAE=huangrm/MINT-tokenizer-libero-130
+```
+
+You can also use existing local paths:
+
+```bash
+CHECKPOINT=/path/to/pretrained_model
+VQVAE=/path/to/tokenizer/ms_vqvae.pth
+```
+
+The three evaluation demonstrations are already included in
+`transfer/demo_traj`. Run any of the transfer tests with the selected model:
+
+```bash
+# New task
+bash transfer/scripts/transfer_new_task.sh "$CHECKPOINT" "$VQVAE"
+
+# New layout
+bash transfer/scripts/transfer_new_layout.sh "$CHECKPOINT" "$VQVAE"
+
+# Extended horizon
+bash transfer/scripts/transfer_extend_horizon.sh "$CHECKPOINT" "$VQVAE"
+```
+
+The scripts save results and trajectory videos under `outputs/transfer_*`.
+Set options such as `SEED`, `NUM_EPISODES`, or `SAVE_VIDEO` before the command
+to override their defaults:
+
+```bash
+SEED=42 NUM_EPISODES=5 SAVE_VIDEO=1 \
+bash transfer/scripts/transfer_new_task.sh "$CHECKPOINT" "$VQVAE"
+```
+
+See [`transfer/README.md`](transfer/README.md) for the concise transfer usage
+guide.
 
 ## Citation
 

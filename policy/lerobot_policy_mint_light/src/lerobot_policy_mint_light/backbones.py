@@ -16,9 +16,19 @@ class DinoV3Backbone(nn.Module):
         super().__init__()
         import timm
 
+        checkpoint_path = None
+        if load_pretrained_weights:
+            from huggingface_hub import try_to_load_from_cache
+
+            cached_checkpoint = try_to_load_from_cache(
+                f"timm/{self.MODEL_NAME}", "model.safetensors"
+            )
+            if isinstance(cached_checkpoint, str):
+                checkpoint_path = cached_checkpoint
         self.dino = timm.create_model(
             self.MODEL_NAME,
-            pretrained=load_pretrained_weights,
+            pretrained=load_pretrained_weights and checkpoint_path is None,
+            checkpoint_path=checkpoint_path,
             num_classes=0,
             img_size=224,
         )
@@ -92,7 +102,12 @@ class LanguageEncoder(nn.Module):
         from transformers import SiglipTextModel
 
         if load_pretrained_weights:
-            self.encoder = SiglipTextModel.from_pretrained(self.MODEL_NAME)
+            try:
+                self.encoder = SiglipTextModel.from_pretrained(
+                    self.MODEL_NAME, local_files_only=True
+                )
+            except OSError:
+                self.encoder = SiglipTextModel.from_pretrained(self.MODEL_NAME)
         else:
             from transformers import AutoConfig
 

@@ -49,24 +49,28 @@ def make_mint_light_pre_post_processors(
     config: MINTLightConfig,
     dataset_stats: dict[str, dict[str, torch.Tensor]] | None = None,
 ) -> tuple[PolicyProcessorPipeline[dict[str, Any], dict[str, Any]], PolicyProcessorPipeline]:
-    """Build standard LeRobot normalization, text-tokenization and device pipelines."""
+    """Build normalization/device pipelines, with tokenization only when enabled."""
 
     features = {**(config.input_features or {}), **(config.output_features or {})}
-    preprocessor = PolicyProcessorPipeline(
-        steps=[
-            RenameObservationsProcessorStep(rename_map={}),
-            AddBatchDimensionProcessorStep(),
-            NormalizerProcessorStep(
-                features=features, norm_map=config.normalization_mapping, stats=dataset_stats
-            ),
+    preprocessor_steps = [
+        RenameObservationsProcessorStep(rename_map={}),
+        AddBatchDimensionProcessorStep(),
+        NormalizerProcessorStep(
+            features=features, norm_map=config.normalization_mapping, stats=dataset_stats
+        ),
+    ]
+    if config.use_language:
+        preprocessor_steps.append(
             MINTLightTokenizerProcessorStep(
                 tokenizer_name=config.language_model_name,
                 max_length=config.tokenizer_max_length,
                 padding_side="right",
                 padding="max_length",
-            ),
-            DeviceProcessorStep(device=config.device),
-        ],
+            )
+        )
+    preprocessor_steps.append(DeviceProcessorStep(device=config.device))
+    preprocessor = PolicyProcessorPipeline(
+        steps=preprocessor_steps,
         name=POLICY_PREPROCESSOR_DEFAULT_NAME,
     )
     postprocessor = PolicyProcessorPipeline(

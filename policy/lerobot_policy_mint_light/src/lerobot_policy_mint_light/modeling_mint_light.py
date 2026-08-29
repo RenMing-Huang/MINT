@@ -41,9 +41,10 @@ class MINTLightModel(nn.Module):
         )
         self.vision_backbone.requires_grad_(False)
         self.visual_fusion = VisualFeatureProjector(self.vision_backbone.feature_dim, dim)
-        self.language_encoder = LanguageEncoder(
-            dim,
-            load_pretrained_weights=load_backbone_weights,
+        self.language_encoder = (
+            LanguageEncoder(dim, load_pretrained_weights=load_backbone_weights)
+            if config.use_language
+            else None
         )
         self.state_encoder = nn.Sequential(
             nn.Linear(config.max_state_dim, config.state_hidden_dim),
@@ -51,20 +52,29 @@ class MINTLightModel(nn.Module):
             nn.Linear(config.state_hidden_dim, dim),
         )
         self.vq_embedding = nn.Linear(config.codebook_dim, dim)
-        self.start_query = nn.Sequential(
-            nn.Linear(dim, config.start_query_hidden_dim),
-            nn.SiLU(inplace=True),
-            nn.Linear(config.start_query_hidden_dim, dim),
+        self.start_query = (
+            nn.Sequential(
+                nn.Linear(dim, config.start_query_hidden_dim),
+                nn.SiLU(inplace=True),
+                nn.Linear(config.start_query_hidden_dim, dim),
+            )
+            if config.use_language
+            else None
         )
-        # Modality order matches MINT-30M: visual, state, language.
-        self.modality_embedding = nn.Embedding(3, dim)
+        self.begin_action_token = (
+            None if config.use_language else nn.Parameter(torch.empty(1, 1, dim))
+        )
+        # Modality order matches MINT-30M: visual, state, and optional language.
+        self.modality_embedding = nn.Embedding(3 if config.use_language else 2, dim)
         self.camera_embedding = nn.Embedding(2, dim)
         self.level_embedding = nn.Embedding(len(config.patch_nums) + 2, dim)
         grid_height, grid_width = self.vision_backbone.grid_size
         self.visual_row_embedding = nn.Embedding(grid_height, dim)
         self.visual_col_embedding = nn.Embedding(grid_width, dim)
         self.state_position_embedding = nn.Embedding(1, dim)
-        self.language_position_embedding = nn.Embedding(config.tokenizer_max_length, dim)
+        self.language_position_embedding = (
+            nn.Embedding(config.tokenizer_max_length, dim) if config.use_language else None
+        )
         self.action_position_embedding = nn.Embedding(sum(config.patch_nums), dim)
         self.transformer = AdaLNTransformer(
             dim=dim,
@@ -76,6 +86,7 @@ class MINTLightModel(nn.Module):
             ffn_dropout=config.ffn_dropout,
             drop_path_rate=config.drop_path_rate,
             cross_attention_every=config.cross_attention_every,
+            use_cross_attention=config.use_language,
         )
         self.head_norm = nn.LayerNorm(dim, eps=1e-6)
         self.codebook_head = nn.Sequential(
@@ -104,6 +115,11 @@ class MINTLightModel(nn.Module):
         self.vqvae.requires_grad_(False)
         self.vqvae.eval()
         self._init_trainable_weights()
+        if self.begin_action_token is not None:
+            nn.init.trunc_normal_(
+                self.begin_action_token,
+                std=math.sqrt(1.0 / self.config.hidden_dim / 3.0),
+            )
         self.transformer.reset_adaln_zero()
 
     def _init_trainable_weights(self) -> None:
@@ -123,7 +139,8 @@ class MINTLightModel(nn.Module):
         super().train(mode)
         self.vision_backbone.eval()
         self.vqvae.eval()
-        self.language_encoder.encoder.eval()
+        if self.language_encoder is not None:
+            self.language_encoder.encoder.eval()
         return self
 
     def _visual_positions(self, device: torch.device) -> Tensor:
@@ -135,8 +152,12 @@ class MINTLightModel(nn.Module):
         ).unsqueeze(0)
 
     def _context(
-        self, images: list[Tensor], state: Tensor, tokens: Tensor, token_mask: Tensor
-    ) -> tuple[Tensor, Tensor, Tensor, Tensor, Tensor]:
+        self,
+        images: list[Tensor],
+        state: Tensor,
+        tokens: Tensor | None,
+        token_mask: Tensor | None,
+    ) -> tuple[Tensor, Tensor, Tensor, Tensor | None, Tensor | None]:
         visual_tokens = []
         visual_position = self._visual_positions(state.device)
         with torch.no_grad():
@@ -151,7 +172,27 @@ class MINTLightModel(nn.Module):
             _pad_last_dim(state, self.config.max_state_dim)
         ).unsqueeze(1)
         state_token = state_token + self.state_position_embedding.weight.view(1, 1, -1)
-        language, language_tokens = self.language_encoder(tokens, token_mask)
+        visual = visual + self.modality_embedding.weight[0].view(1, 1, -1)
+        state_token = state_token + self.modality_embedding.weight[1].view(1, 1, -1)
+        batch = visual.shape[0]
+        prefix_mask = torch.ones(
+            batch,
+            visual.shape[1] + state_token.shape[1],
+            dtype=torch.bool,
+            device=visual.device,
+        )
+        if not self.config.use_language:
+            context = torch.cat([visual, state_token], dim=1)
+            # The visual/state summary replaces the pooled language condition
+            # used by AdaLN and the first action query.
+            condition = context.mean(dim=1)
+            return context, prefix_mask, condition, None, None
+
+        if tokens is None or token_mask is None:
+            raise ValueError("Language tokens and attention mask are required when use_language=True")
+        if self.language_encoder is None or self.language_position_embedding is None:
+            raise RuntimeError("Language modules are missing from a language-enabled model")
+        condition, language_tokens = self.language_encoder(tokens, token_mask)
         language_length = language_tokens.shape[1]
         if language_length > self.config.tokenizer_max_length:
             raise ValueError(
@@ -162,20 +203,10 @@ class MINTLightModel(nn.Module):
             torch.arange(language_length, device=language_tokens.device)
         ).unsqueeze(0)
         language_tokens = language_tokens + language_positions
-
-        visual = visual + self.modality_embedding.weight[0].view(1, 1, -1)
-        state_token = state_token + self.modality_embedding.weight[1].view(1, 1, -1)
         language_tokens = language_tokens + self.modality_embedding.weight[2].view(1, 1, -1)
         context = torch.cat([visual, state_token, language_tokens], dim=1)
-        batch = context.shape[0]
-        prefix_mask = torch.ones(
-            batch,
-            visual.shape[1] + state_token.shape[1],
-            dtype=torch.bool,
-            device=context.device,
-        )
         context_mask = torch.cat([prefix_mask, token_mask.bool()], dim=1)
-        return context, context_mask, language, language_tokens, token_mask.bool()
+        return context, context_mask, condition, language_tokens, token_mask.bool()
 
     def _level_layout(self, context_length: int, device: torch.device) -> Tensor:
         return torch.cat(
@@ -192,9 +223,9 @@ class MINTLightModel(nn.Module):
         self,
         context: Tensor,
         context_mask: Tensor,
-        language: Tensor,
-        language_tokens: Tensor,
-        language_mask: Tensor,
+        condition: Tensor,
+        cross_context: Tensor | None,
+        cross_mask: Tensor | None,
         action_inputs: Tensor,
     ) -> Tensor:
         context_length = context.shape[1]
@@ -220,24 +251,33 @@ class MINTLightModel(nn.Module):
         mask = level_mask.unsqueeze(0) & valid_keys.unsqueeze(1)
         output = self.transformer(
             sequence,
-            cond=language,
+            cond=condition,
             mask=mask,
-            cross_context=language_tokens,
-            cross_mask=language_mask,
+            cross_context=cross_context,
+            cross_mask=cross_mask,
         )
         return self.codebook_head(self.head_norm(output[:, context_length:]))
 
-    def _teacher_forcing_inputs(self, indices: list[Tensor], language: Tensor) -> Tensor:
+    def _action_start_query(self, condition: Tensor) -> Tensor:
+        if self.config.use_language:
+            if self.start_query is None:
+                raise RuntimeError("Language-conditioned start-query projection is missing")
+            return self.start_query(condition).unsqueeze(1)
+        if self.begin_action_token is None:
+            raise RuntimeError("Visual-only begin-of-action token is missing")
+        return self.begin_action_token.expand(condition.shape[0], -1, -1)
+
+    def _teacher_forcing_inputs(self, indices: list[Tensor], condition: Tensor) -> Tensor:
         next_scale = self.vqvae.quantizer.idxBl_to_next_scale_input(indices)
-        first = self.start_query(language).unsqueeze(1).expand(-1, self.config.patch_nums[0], -1)
+        first = self._action_start_query(condition).expand(-1, self.config.patch_nums[0], -1)
         return torch.cat([first, self.vq_embedding(next_scale)], dim=1)
 
     def forward(
         self,
         images: list[Tensor],
         state: Tensor,
-        tokens: Tensor,
-        token_mask: Tensor,
+        tokens: Tensor | None,
+        token_mask: Tensor | None,
         actions: Tensor | None = None,
     ) -> Tensor | tuple[Tensor, Tensor, Tensor]:
         if actions is None:
@@ -245,27 +285,37 @@ class MINTLightModel(nn.Module):
         with torch.no_grad():
             indices = self.vqvae.inp_to_idxBl(actions)
         targets = torch.cat(indices, dim=1)
-        context, context_mask, language, language_tokens, language_mask = self._context(
+        context, context_mask, condition, cross_context, cross_mask = self._context(
             images, state, tokens, token_mask
         )
         logits = self._training_logits(
             context,
             context_mask,
-            language,
-            language_tokens,
-            language_mask,
-            self._teacher_forcing_inputs(indices, language),
+            condition,
+            cross_context,
+            cross_mask,
+            self._teacher_forcing_inputs(indices, condition),
         )
         return F.cross_entropy(logits.transpose(1, 2), targets, reduction="none")
 
     @torch.no_grad()
-    def sample(self, images: list[Tensor], state: Tensor, tokens: Tensor, token_mask: Tensor) -> Tensor:
+    def sample(
+        self,
+        images: list[Tensor],
+        state: Tensor,
+        tokens: Tensor | None = None,
+        token_mask: Tensor | None = None,
+    ) -> Tensor:
         actions, _, _ = self._sample_with_metadata(images, state, tokens, token_mask)
         return actions
 
     @torch.no_grad()
     def sample_with_intention(
-        self, images: list[Tensor], state: Tensor, tokens: Tensor, token_mask: Tensor
+        self,
+        images: list[Tensor],
+        state: Tensor,
+        tokens: Tensor | None = None,
+        token_mask: Tensor | None = None,
     ) -> tuple[Tensor, Tensor]:
         actions, intention, _ = self._sample_with_metadata(images, state, tokens, token_mask)
         return actions, intention
@@ -282,9 +332,13 @@ class MINTLightModel(nn.Module):
 
     @torch.no_grad()
     def _sample_with_metadata(
-        self, images: list[Tensor], state: Tensor, tokens: Tensor, token_mask: Tensor
+        self,
+        images: list[Tensor],
+        state: Tensor,
+        tokens: Tensor | None,
+        token_mask: Tensor | None,
     ) -> tuple[Tensor, Tensor, Tensor]:
-        context, context_mask, language, language_tokens, language_mask = self._context(
+        context, context_mask, condition, cross_context, cross_mask = self._context(
             images, state, tokens, token_mask
         )
         batch = context.shape[0]
@@ -296,16 +350,16 @@ class MINTLightModel(nn.Module):
             context_attention_mask = context_mask[:, None, :].expand(-1, context.shape[1], -1)
             self.transformer(
                 context,
-                cond=language,
+                cond=condition,
                 mask=context_attention_mask,
-                cross_context=language_tokens,
-                cross_mask=language_mask,
+                cross_context=cross_context,
+                cross_mask=cross_mask,
             )
             f_hat = torch.zeros(
                 batch, self.config.codebook_dim, self.config.patch_nums[-1], device=context.device
             )
             generated = 0
-            query = self.start_query(language).unsqueeze(1)
+            query = self._action_start_query(condition)
             intention = None
             confidence_by_scale = []
             for scale, size in enumerate(self.config.patch_nums):
@@ -328,10 +382,10 @@ class MINTLightModel(nn.Module):
                 attention_mask = cache_mask[:, None, :].expand(-1, size, -1)
                 hidden = self.transformer(
                     query,
-                    cond=language,
+                    cond=condition,
                     mask=attention_mask,
-                    cross_context=language_tokens,
-                    cross_mask=language_mask,
+                    cross_context=cross_context,
+                    cross_mask=cross_mask,
                 )
                 logits = self.codebook_head(self.head_norm(hidden))
                 probabilities = logits.softmax(dim=-1)
@@ -411,14 +465,26 @@ class MINTLightPolicy(PreTrainedPolicy):
         names = [name for name, parameter in self.model.named_parameters() if parameter.requires_grad]
         return dict(zip(names, self.ema_parameters, strict=True))
 
-    def _inputs(self, batch: dict[str, Tensor]) -> tuple[list[Tensor], Tensor, Tensor, Tensor]:
+    def _inputs(
+        self, batch: dict[str, Tensor]
+    ) -> tuple[list[Tensor], Tensor, Tensor | None, Tensor | None]:
         missing = [key for key in self.config.image_features if key not in batch]
         if missing:
             raise ValueError(f"Configured visual inputs are missing from the batch: {missing}")
         images = [batch[key].to(self.config.device) for key in self.config.image_features]
+        state = batch[OBS_STATE].to(self.config.device)
+        if not self.config.use_language:
+            return images, state, None, None
+        missing_language = [
+            key
+            for key in (OBS_LANGUAGE_TOKENS, OBS_LANGUAGE_ATTENTION_MASK)
+            if key not in batch
+        ]
+        if missing_language:
+            raise ValueError(f"Language-enabled MINT-Light input is missing: {missing_language}")
         return (
             images,
-            batch[OBS_STATE].to(self.config.device),
+            state,
             batch[OBS_LANGUAGE_TOKENS].to(self.config.device),
             batch[OBS_LANGUAGE_ATTENTION_MASK].to(self.config.device),
         )

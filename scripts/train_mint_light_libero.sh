@@ -32,6 +32,7 @@ NUM_LAYERS="${NUM_LAYERS:-10}"
 NUM_HEADS="${NUM_HEADS:-6}"
 HEAD_DIM="${HEAD_DIM:-64}"
 MLP_HIDDEN_DIM="${MLP_HIDDEN_DIM:-1024}"
+USE_LANGUAGE="${USE_LANGUAGE:-false}"
 
 if [[ -z "${TOKENIZER_CKPT}" ]]; then
     echo "TOKENIZER_CKPT is required." >&2
@@ -93,6 +94,7 @@ echo "  Output:     ${OUTPUT_DIR}"
 echo "  Batch size: ${BATCH_SIZE} per process"
 echo "  Image aug:  ${IMAGE_TRANSFORMS_ENABLE} (${IMAGE_TRANSFORMS_MAX_NUM} transforms per image)"
 echo "  Vision:     DINOv3 ViT-L/16"
+echo "  Language:   ${USE_LANGUAGE}"
 echo "  Transformer:${NUM_LAYERS} layers, ${NUM_HEADS} heads x ${HEAD_DIM}, hidden=${HIDDEN_DIM}"
 
 exec "${ACCELERATE_BIN}" "${ACCELERATE_ARGS[@]}" "${TRAIN_BIN}" \
@@ -102,6 +104,7 @@ exec "${ACCELERATE_BIN}" "${ACCELERATE_ARGS[@]}" "${TRAIN_BIN}" \
     --dataset.image_transforms.max_num_transforms="${IMAGE_TRANSFORMS_MAX_NUM}" \
     --dataset.image_transforms.random_order="${IMAGE_TRANSFORMS_RANDOM_ORDER}" \
     --policy.type=mint_light \
+    --policy.use_language="${USE_LANGUAGE}" \
     --policy.vqvae_name_or_path="${TOKENIZER_CKPT}" \
     --policy.hidden_dim="${HIDDEN_DIM}" \
     --policy.num_layers="${NUM_LAYERS}" \

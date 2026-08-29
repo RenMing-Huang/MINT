@@ -14,3 +14,7 @@ pip install -e ./policy/lerobot_policy_mint_light
 
 See the repository README for tokenizer setup and complete training and evaluation commands.
 Both projects use the same `src/<package>/` layout and can be packaged independently.
+
+MINT-Light supports both language-conditioned and visual-only policies. Use
+`--policy.use_language=false` for the visual-only architecture required by the
+one-shot transfer code.

@@ -39,6 +39,9 @@ class MINTLightConfig(PreTrainedConfig):
     cross_attention_every: int = 2
     vision_backbone_id: str = VISION_BACKBONE_ID
     vision_pretrained: bool = True
+    # Defaults to True so checkpoints saved before this field was introduced
+    # retain their original language-conditioned architecture.
+    use_language: bool = True
     language_model_name: str = LANGUAGE_MODEL_NAME
     language_pretrained: bool = True
     tokenizer_max_length: int = 64
@@ -91,12 +94,12 @@ class MINTLightConfig(PreTrainedConfig):
             )
         if not self.vision_pretrained:
             raise ValueError("MINT-Light 1.0 requires pretrained DINOv3 weights")
-        if self.language_model_name != self.LANGUAGE_MODEL_NAME:
+        if self.use_language and self.language_model_name != self.LANGUAGE_MODEL_NAME:
             raise ValueError(
                 "MINT-Light 1.0 only supports the fixed SigLIP text encoder "
                 f"({self.LANGUAGE_MODEL_NAME}); got {self.language_model_name}"
             )
-        if not self.language_pretrained:
+        if self.use_language and not self.language_pretrained:
             raise ValueError("MINT-Light 1.0 requires pretrained SigLIP text weights")
         if tuple(self.image_resolution) != (224, 224):
             raise ValueError("MINT-Light 1.0 uses a fixed encoder resolution of 224x224")
@@ -120,8 +123,10 @@ class MINTLightConfig(PreTrainedConfig):
             raise ValueError("ffn_dropout must be in [0, 1)")
         if not 0.0 <= self.drop_path_rate < 1.0:
             raise ValueError("drop_path_rate must be in [0, 1)")
-        if self.start_query_hidden_dim <= 0 or self.classifier_hidden_dim <= 0:
-            raise ValueError("Projection dimensions must be positive")
+        if self.use_language and self.start_query_hidden_dim <= 0:
+            raise ValueError("start_query_hidden_dim must be positive when language is enabled")
+        if self.classifier_hidden_dim <= 0:
+            raise ValueError("classifier_hidden_dim must be positive")
         if not 0.0 <= self.ema_decay < 1.0:
             raise ValueError("ema_decay must be in [0, 1)")
         if not 1 <= self.sample_top_k <= self.codebook_size:
