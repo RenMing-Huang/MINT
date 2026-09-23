@@ -28,6 +28,16 @@
 
 We introduce MINT (Mimic Intent, Not just Trajectories), a framework for end-to-end imitation learning in dexterous manipulation. MINT explicitly <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>disentangles behavior intent from execution details</strong></span> by learning a hierarchical, multi-scale token representation of actions. Coarse tokens capture global, low-frequency intent, while finer tokens encode high-frequency execution details. Our policy generates trajectories via <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>next-scale autoregression</strong></span>, performing progressive <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>intent-to-execution reasoning</strong></span>. This structure enables efficient learning, robust adaptation to environmental dynamics, and <span style="background-color:#e0f2fe;color:#075985;padding:0 4px;border-radius:4px;"><strong>one-shot skill transfer</strong></span> by reusing the intent token from a demonstration. Experiments on simulation and real robots demonstrate strong performance, high generalization, and effective skill transfer.
 
+## News
+
+- **Bimanual RoboTwin models released.** [Policy](https://huggingface.co/huangrm/BMINTF-robotwin) and [tokenizer](https://huggingface.co/huangrm/BMINTF-tokenizer-robotwin-qpos) checkpoints are available.
+- **CALVIN and Bridge models released.** Policy and tokenizer pairs are available in the [Model Zoo](#model-zoo).
+- **One-shot transfer released.** The [model](https://huggingface.co/huangrm/MINT-light-zero) and [code](transfer/) are available.
+- **MINT presented at RSS.** The work was featured in an RSS talk.
+- **Accepted to RSS 2026.** MINT was accepted to Robotics: Science and Systems.
+- **Code released.** The [MINT implementation](https://github.com/RenMing-Huang/MINT) is public.
+- **Paper released.** Read the [MINT paper](https://arxiv.org/abs/2602.08602).
+
 ## Open-Source Roadmap
 
 | Track | Scope | Status | Target |
@@ -36,8 +46,8 @@ We introduce MINT (Mimic Intent, Not just Trajectories), a framework for end-to-
 | ✅ Public Weights | LIBERO-130 policy + tokenizer on Hugging Face | Released | Done |
 | ✅ SDAT Training | Training scripts + configs | Released | Done |
 | ✅ Lightweight MINT-30M | LeRobot-compatible MINT-Light policy | Released | Done |
-| 🗓 Multi-dataset Checkpoints | CALVIN / Bridge policy-tokenizer pairs | Planned | 2026 H2 |
-| 🗓 Support Bimanual Manipulation | RoboTwin and other bimanual manipulation benchmarks | Planned | 2026 H3 |
+| ✅ Multi-dataset Checkpoints | CALVIN / Bridge policy-tokenizer pairs | Released | Done |
+| ✅ Support Bimanual Manipulation | RoboTwin policy + tokenizer | Released | Done |
 
 ## Installation
 
@@ -88,8 +98,9 @@ The [`policy`](policy) directory contains two independent packages with matching
 | Dataset | Policy | Tokenizer | Status | Notes |
 |---|---|---|---|---|
 | [LIBERO-130](Retoc71586/libero_130_lerobot_v3) | [huangrm/MINT-libero-130](https://huggingface.co/huangrm/MINT-libero-130) | [huangrm/MINT-tokenizer-libero-130](https://huggingface.co/huangrm/MINT-tokenizer-libero-130) | Available | LeRobot 0.5.1 release |
-| CALVIN | Coming soon | Coming soon | Planned | Upcoming release |
-| [Bridge](FedorX8/bridge_v2_lerobot) | Coming soon | Coming soon | Planned | Upcoming release |
+| CALVIN | [huangrm/MINT-calvin-abcd](https://huggingface.co/huangrm/MINT-calvin-abcd) | [huangrm/MINT-tokenizer-calvin](https://huggingface.co/huangrm/MINT-tokenizer-calvin) | Available | ABCD training split |
+| BridgeV2 | [huangrm/MINT-bridgev2](https://huggingface.co/huangrm/MINT-bridgev2) | [huangrm/MINT-tokenizer-bridgev2](https://huggingface.co/huangrm/MINT-tokenizer-bridgev2) | Available | BridgeV2 release |
+| RoboTwin (bimanual) | [huangrm/BMINTF-robotwin](https://huggingface.co/huangrm/BMINTF-robotwin) | [huangrm/BMINTF-tokenizer-robotwin-qpos](https://huggingface.co/huangrm/BMINTF-tokenizer-robotwin-qpos) | Available | Joint-position actions |
 
 ### MINT-Light / MINT-30M ⚡
 
