@@ -246,10 +246,5 @@ This project is built on top of excellent open-source ecosystems.
 We sincerely thank the teams behind [LeRobot](https://github.com/huggingface/lerobot)
 and [OpenPI](https://github.com/Physical-Intelligence/openpi) for their impactful contributions.
 
-## Star History
 
-[![Star History Chart](https://api.star-history.com/chart?repos=renming-huang/mint&type=date&legend=bottom-right)](https://www.star-history.com/?repos=renming-huang%2Fmint&type=date&legend=bottom-right)
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=renming-huang/mint&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=renming-huang/mint&type=date&legend=top-left" />
- </picture>
-</a>
+[![Star History Chart](https://api.star-history.com/chart?repos=renming-huang/mint&type=date&legend=top-left)](https://www.star-history.com/?repos=renming-huang%2Fmint&type=date&legend=bottom-right)
